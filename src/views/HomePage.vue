@@ -110,7 +110,7 @@ import groundGlb from "@/assets/glbModel/ground.glb"
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { getCurrentTime } from "@/utils/update-time"
 import { setBar, setPie, drawMPie } from "@/utils/echart-fn";
-// import { getWeather, getWeatherNow } from "@/utils/weather"
+import { getWeather, getWeatherNow } from "@/utils/weather"
 
 export default {
     name: 'HomePage',
@@ -130,34 +130,34 @@ export default {
         }
     },
     mounted() {
-        // getWeatherNow().then((data) => {
+        getWeatherNow().then((data) => {
 
-        //     console.log("获取到的天气信息 now", data);
-        //     const dataNow = data.now;
-        //     if (!dataNow) {
-        //         return;
-        //     }
-        //     this.weatherTipText = dataNow.text;
-        //     this.weatherTipIcon = `qi-${dataNow.icon}`;
-        // })
-        // getWeather().then((data) => {
-        //     console.log("获取到的天气信息", data);
-        //     const dataBody = data.daily;
-        //     if (!dataBody) {
-        //         return;
-        //     }
-        //     this.weatherTipNum = dataBody[0].tempMin + "～" + dataBody[0].tempMax;
-        //     const dayList = ["今天", "明天", "后天"];
-        //     dataBody.forEach((item, idx) => {
-        //         this.weather3dlist.push({
-        //             temperature: item.tempMin + "～" + item.tempMax,
-        //             text: dayList[idx] + " ：" + item.textDay,
-        //             icon: "qi-" + item.iconDay,
-        //         })
-        //     })
+            console.log("获取到的天气信息 now", data);
+            const dataNow = data.now;
+            if (!dataNow) {
+                return;
+            }
+            this.weatherTipText = dataNow.text;
+            this.weatherTipIcon = `qi-${dataNow.icon}`;
+        })
+        getWeather().then((data) => {
+            console.log("获取到的天气信息", data);
+            const dataBody = data.daily;
+            if (!dataBody) {
+                return;
+            }
+            this.weatherTipNum = dataBody[0].tempMin + "～" + dataBody[0].tempMax;
+            const dayList = ["今天", "明天", "后天"];
+            dataBody.forEach((item, idx) => {
+                this.weather3dlist.push({
+                    temperature: item.tempMin + "～" + item.tempMax,
+                    text: dayList[idx] + " ：" + item.textDay,
+                    icon: "qi-" + item.iconDay,
+                })
+            })
 
 
-        // });
+        });
         this.hotRanking();
         this.electricityRanking();
         this.waterRanking();
@@ -739,6 +739,8 @@ export default {
                 const group = new THREE.Group();
                 // 当前的文本 Mesh
                 let currentTextMesh = null;
+                // 初始隐藏 group
+                group.visible = false;
 
                 // 创建文本的函数
                 function createText(font, text) {
@@ -918,8 +920,10 @@ export default {
                                 color: 0x00ff00, // 设置颜色为绿色
                                 opacity: 0.05      // 设置透明度
                             });
+                            group.visible = true;
                             recordHoverData.push(intersects[0]);
                         } else {
+                            group.visible = false;
                             // 如果鼠标没有悬停在任何地方，恢复透明度为 1
                             model.traverse((child) => {
                                 if (child.isMesh && initColorNumber != child.material.color.getHex()) {
@@ -1051,12 +1055,16 @@ export default {
     width: 420px;
     height: 218px;
 }
-
+.header{
+    position: relative;
+    z-index: 100;
+}
 .header-box {
     height: 76px;
     display: flex;
     justify-content: space-between;
     color: #fff;
+    
 }
 
 .header-left {
