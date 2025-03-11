@@ -76,4 +76,10 @@ body{
   margin: 0 auto;
 
 }
+
+.otherPage #app{
+  background-image: url("@/assets/image/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 </style>

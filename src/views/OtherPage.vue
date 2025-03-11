@@ -248,6 +248,8 @@ export default {
     }
   },
   mounted() {
+
+    document.body.classList.add('otherPage');
     this.drawPoint();
     this.getHotDatList();
     this.drawWave();
@@ -290,6 +292,7 @@ export default {
     }, 1000);
   },
   unmounted() {
+    document.body.classList.remove('otherPage');
     clearInterval(this.timer);
     this.timerData.forEach((elem) => {
       clearInterval(elem);
