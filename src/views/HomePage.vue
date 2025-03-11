@@ -1064,6 +1064,8 @@ export default {
     display: flex;
     justify-content: space-between;
     color: #fff;
+    box-sizing: border-box;
+    padding-top: 15px;
     
 }
 
