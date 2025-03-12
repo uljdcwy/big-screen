@@ -102,15 +102,19 @@ import fire from "@/assets/image/fire.png"
 import water from "@/assets/image/water.png"
 import lai from "@/assets/image/lai.png"
 import lingitBg from "@/assets/image/lingit.png"
+import sky_texture from "@/assets/sky_texture.hdr"
 import { Font } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { PMREMGenerator } from 'three/src/extras/PMREMGenerator.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import wrrhFont from "@/assets/image/wrrh.json"
 import buildingGlb from "@/assets/glbModel/building.glb"
 import groundGlb from "@/assets/glbModel/ground.glb"
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { getCurrentTime } from "@/utils/update-time"
 import { setBar, setPie, drawMPie } from "@/utils/echart-fn";
-import { getWeather, getWeatherNow } from "@/utils/weather"
+import { getWeather, getWeatherNow } from "@/utils/weather";
+// import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 export default {
     name: 'HomePage',
@@ -184,7 +188,8 @@ export default {
         cancelAnimationFrame(this.threeData.frame);
         this.timerData.forEach((elem) => {
             clearInterval(elem)
-        })
+        });
+        this.clearThreeData();
     },
     methods: {
         clearThreeData() {
@@ -192,30 +197,12 @@ export default {
             let animationFrameId = this.threeData.frame;
             const scene = this.threeData.scene;
             const controls = this.threeData.controls;
-            cancelAnimationFrame();
             // 停止动画循环
             if (animationFrameId) {
                 cancelAnimationFrame(animationFrameId);
                 animationFrameId = null;
             }
 
-            // 遍历场景中的所有子对象，销毁几何体、材质、纹理
-            scene.traverse((object) => {
-                if (object.isMesh) {
-                    if (object.geometry) {
-                        object.geometry.dispose();
-                    }
-                    if (object.material) {
-                        if (Array.isArray(object.material)) {
-                            object.material.forEach((mat) => mat.dispose());
-                        } else {
-                            object.material.dispose();
-                        }
-                    }
-                } else if (object.isLight) {
-                    scene.remove(object); // 移除光源
-                }
-            });
 
             // 清空场景
             while (scene.children.length > 0) {
@@ -703,8 +690,8 @@ export default {
                 const height = threeModel.offsetHeight;
 
                 // 创建相机
-                const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-                camera.position.set(0, 1, 3); // 适当调整相机位置
+                const camera = new THREE.PerspectiveCamera(75, width / height, 0.01, 1000);
+                camera.position.set(0.06, 0.05, 0.22); // 适当调整相机位置
 
                 // 创建 WebGL 渲染器
                 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -719,9 +706,8 @@ export default {
                 scene.add(ambientLight);
 
                 // 添加方向光
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-                directionalLight.position.set(5, 5, 5);
-                scene.add(directionalLight);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
+                directionalLight.position.set(-1.2, 1.34, 4.92);
 
                 const buildingInitScale = 0.001;
                 const groundInitScale = 0.001;
@@ -731,7 +717,7 @@ export default {
                 const modelPositionX = 0;
 
 
-                const fontJson = new Font( wrrhFont );
+                const fontJson = new Font(wrrhFont);
 
 
 
@@ -742,6 +728,14 @@ export default {
                 // 初始隐藏 group
                 group.visible = false;
 
+                // 使用 lil-gui 调试相机位置
+                // const gui = new GUI();
+                // const cameraFolder = gui.addFolder('Camera Position');
+                // cameraFolder.add(camera.position, 'x', -50, 50, 0.01).name('X Axis');
+                // cameraFolder.add(camera.position, 'y', -50, 50, 0.01).name('Y Axis');
+                // cameraFolder.add(camera.position, 'z', -50, 50, 0.01).name('Z Axis');
+                // cameraFolder.open();
+
                 // 创建文本的函数
                 function createText(font, text) {
                     // 删除旧的文本几何体
@@ -750,17 +744,17 @@ export default {
                     }
                     const geometry = new TextGeometry(text, {
                         font: font,
-                        size: 0.05,
+                        size: (text.length < 4) ? 0.03 : 0.025,
                         depth: 0.001,  // 设置文本的深度（厚度）
                     });
 
                     // 设置材质
                     const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
                     currentTextMesh = new THREE.Mesh(geometry, material);
-
+                    const leftRaduce =  text.length * 0.01 + 0.01;
                     // 将新文本添加到场景
                     scene.add(currentTextMesh);
-                    currentTextMesh.position.x = -0.070;
+                    currentTextMesh.position.x = -leftRaduce;
                     currentTextMesh.position.y = 0.03;
 
                     // 调整文本位置
@@ -802,8 +796,7 @@ export default {
 
 
                     // 让相机看向模型
-                    camera.lookAt(model.position);
-                    camera.position.y -= 0.1;
+                    camera.lookAt(0, 0, 0);
                 });
 
 
@@ -850,14 +843,31 @@ export default {
                     const recordHoverData = [];
 
 
+                    // 创建 PMREM 生成器
+                    const pmremGenerator = new PMREMGenerator(renderer);
+                    // 使用 RGBELoader 加载 HDR 环境图
+                    new RGBELoader().load(sky_texture, (hdrTexture) => {
+                        console.log(hdrTexture, "hdrTexture");
+                        // 从 HDR 图像生成 PMREM 贴图
+                        const pmremTexture = pmremGenerator.fromEquirectangular(hdrTexture).texture;
+                        scene.background = pmremTexture;   // 作为背景图像
+                        scene.environment = pmremTexture;  // 作为全局环境贴图
+
+                        setTimeout(() => {
+                            animate();
+                        }, 3000);
+
+                    });
 
 
                     // 加载图片纹理
                     const textureLoader = new THREE.TextureLoader();
                     const texture = textureLoader.load(lingitBg);  // 替换为你的图片路径
 
+                    const initWidthPlane = 0.15;
+
                     // 创建平面几何体
-                    const geometry = new THREE.PlaneGeometry(0.2, .2 * 1.3);  // 平面大小 5x5
+                    const geometry = new THREE.PlaneGeometry(initWidthPlane, initWidthPlane * 1.3);  // 平面大小 5x5
 
                     // 使用图片纹理创建材质
                     const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
@@ -895,31 +905,45 @@ export default {
                         // console.log(intersects, "intersects")
                         if (intersects.length > 0) {
                             recordHoverData.forEach((item) => {
-                                item.object.material = new THREE.MeshStandardMaterial({
-                                    color: new THREE.Color(initColorNumber)
-                                });
+                                item.object.material.opacity = 1; // 设置透明度
                             })
                             const intersection = intersects[0];
                             // 获取 data  楼栋 中的数据数据值;
                             const currentShow = data[intersection.object.userData.index];
-
+                            if(!currentShow){
+                                return ;
+                            }
                             // 将平面移动到交点的上方 (假设"上方"是 Y 轴上方，增加一个偏移量)
                             group.position.copy(intersection.point);
                             console.log(currentShow, "currentShow", plane.position);
 
                             // 获取模型的高度
                             const modelHeight = getModelHeight(intersection.object);
-                            group.position.y += modelHeight / 2 + 0.2 / 2;  // 向上偏移，确保平面位于模型的顶部上方
+
+
+                            // 计算相机和物体之间的距离
+                            // const distance = camera.position.z - group.position.z;
+                            // 根据距离调整物体的缩放比例
+                            // const scale = 1 * (distance / 1);  // 使用50作为距离参考值，这可以根据需要调整
+                            // group.scale.set(scale, scale, scale);  // 更新物体的缩放
+                            group.position.y += modelHeight / 2 + initWidthPlane / 2;  // 向上偏移，确保平面位于模型的顶部上方
 
                             const textMesh = createText(fontJson, currentShow);
 
 
                             group.add(textMesh);
+                            
                             // 如果鼠标悬停在模型上，改变颜色为红色
-                            intersects[0].object.material = new THREE.MeshStandardMaterial({
-                                color: 0x00ff00, // 设置颜色为绿色
-                                opacity: 0.05      // 设置透明度
-                            });
+                            const mashObject = intersects[0].object;
+
+                            const originalMaterial = mashObject.material; // 获取原始材质
+                            const newMaterial = originalMaterial.clone(); // 克隆材质
+
+                            newMaterial.transparent = true; // 启用透明
+                            newMaterial.opacity = 0.5; // 设置透明度
+
+                            mashObject.material = newMaterial; // 将新材质赋值给网格对象
+
                             group.visible = true;
                             recordHoverData.push(intersects[0]);
                         } else {
@@ -927,9 +951,7 @@ export default {
                             // 如果鼠标没有悬停在任何地方，恢复透明度为 1
                             model.traverse((child) => {
                                 if (child.isMesh && initColorNumber != child.material.color.getHex()) {
-                                    child.material = new THREE.MeshStandardMaterial({
-                                        color: new THREE.Color(initColorNumber)
-                                    });
+                                    child.material.opacity = 1; // 设置透明度
                                 }
                             });
                         }
@@ -951,14 +973,31 @@ export default {
                 // 添加 OrbitControls 交互控制器
                 const controls = new OrbitControls(camera, renderer.domElement);
                 this.threeData.controls = controls;
+
+
+                // 自动获取相机与中心点 (0, 0, 0) 的距离和角度
+                let angle = 0; // 初始角度
+                const radius = camera.position.length(); // 自动获取初始半径（相机到中心点的距离）
+
+                // 根据相机的初始位置计算角度
+                const dx = camera.position.x;
+                const dz = camera.position.z;
+                angle = Math.atan2(dz, dx); // 计算初始角度（相机在水平面上的角度）
+
                 // 动画循环
                 const animate = () => {
                     this.threeData.frame = requestAnimationFrame(animate);
+                    
+                    // 计算相机的位置，使其围绕原点旋转
+                    angle += 0.01; // 旋转速度
+                    camera.position.x = radius * Math.cos(angle); // 根据角度计算 x 位置
+                    camera.position.z = radius * Math.sin(angle); // 根据角度计算 z 位置
+
                     controls.update(); // 让 OrbitControls 进行平滑阻尼处理
                     renderer.render(scene, camera);
                 }
 
-                animate();
+                
             });
 
         }
@@ -1055,10 +1094,12 @@ export default {
     width: 420px;
     height: 218px;
 }
-.header{
+
+.header {
     position: relative;
     z-index: 100;
 }
+
 .header-box {
     height: 76px;
     display: flex;
@@ -1066,7 +1107,7 @@ export default {
     color: #fff;
     box-sizing: border-box;
     padding-top: 15px;
-    
+
 }
 
 .header-left {
@@ -1127,7 +1168,7 @@ export default {
 .three-model {
     position: absolute;
     left: 0;
-    top: 0;
+    top: -86px;
     bottom: 0;
     right: 0;
 }

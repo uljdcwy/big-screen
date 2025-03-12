@@ -14,5 +14,17 @@ module.exports = defineConfig({
         name: '[name].[hash:8].[ext]'
       })
       .end();
+
+    // 配置 HDR 加载
+    config.module
+      .rule('hdr')
+      .test(/\.hdr$/)
+      .use('file-loader') // 或 'url-loader'
+      .loader('file-loader')
+      .options({
+        outputPath: 'assets/hdr/',
+        name: '[name].[hash:8].[ext]'
+      })
+      .end();
   }
 });

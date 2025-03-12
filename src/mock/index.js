@@ -2027,11 +2027,12 @@ Mock.mock('/api/getBuildingInfo', 'get', {
 });
 
 
-const arrData = new Array(2835).fill("5栋");
+const arrData = new Array(5996).fill("5栋");
 arrData.forEach((item,idx) => {
     item
     if(idx % 2){
-        arrData[idx] = "10栋"
+        const num = parseInt(Math.random() * 5996)
+        arrData[idx] = num + "栋"
     }
 })
 // 模拟用户数据
