@@ -956,14 +956,22 @@ export default {
                             });
                         }
                     }
-
+                    const That = this;
 
                     // 如果你想处理鼠标点击事件
                     function onMouseClick(event) {
                         // 处理点击事件
                         const intersects = raycaster.intersectObject(model, true);
                         if (intersects.length > 0) {
-                            console.log("模型被点击！", event);
+                            const intersection = intersects[0];
+                            // 获取 data  楼栋 中的数据数据值;
+                            const currentShow = data[intersection.object.userData.index];
+                            if (!currentShow) {
+                                return;
+                            }
+                            console.log(That.$router,"this.$router", That)
+                            That.$router.push({ name: 'OtherPage', params: { id: parseInt(currentShow) } }); // 跳转到 /user/123
+                            console.log("模型被点击！", event, currentShow);
                         }
                     }
 
