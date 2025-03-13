@@ -751,7 +751,7 @@ export default {
                     // 设置材质
                     const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
                     currentTextMesh = new THREE.Mesh(geometry, material);
-                    const leftRaduce =  text.length * 0.01 + 0.01;
+                    const leftRaduce = text.length * 0.01 + 0.01;
                     // 将新文本添加到场景
                     scene.add(currentTextMesh);
                     currentTextMesh.position.x = -leftRaduce;
@@ -910,8 +910,8 @@ export default {
                             const intersection = intersects[0];
                             // 获取 data  楼栋 中的数据数据值;
                             const currentShow = data[intersection.object.userData.index];
-                            if(!currentShow){
-                                return ;
+                            if (!currentShow) {
+                                return;
                             }
                             // 将平面移动到交点的上方 (假设"上方"是 Y 轴上方，增加一个偏移量)
                             group.position.copy(intersection.point);
@@ -932,7 +932,7 @@ export default {
 
 
                             group.add(textMesh);
-                            
+
                             // 如果鼠标悬停在模型上，改变颜色为红色
                             const mashObject = intersects[0].object;
 
@@ -977,27 +977,44 @@ export default {
 
                 // 自动获取相机与中心点 (0, 0, 0) 的距离和角度
                 let angle = 0; // 初始角度
-                const radius = camera.position.length(); // 自动获取初始半径（相机到中心点的距离）
+                let radius = camera.position.length(); // 自动获取初始半径（相机到中心点的距离）
 
                 // 根据相机的初始位置计算角度
-                const dx = camera.position.x;
-                const dz = camera.position.z;
+                let dx = camera.position.x;
+                let dz = camera.position.z;
                 angle = Math.atan2(dz, dx); // 计算初始角度（相机在水平面上的角度）
 
+
+                let autoRun = true;
+
+                threeModel.addEventListener('mouseenter', () => {
+                    console.log('鼠标进入');
+                    autoRun = false;
+                });
+
+                threeModel.addEventListener('mouseleave', () => {
+                    console.log('鼠标离开');
+                    autoRun = true;
+                    dx = camera.position.x;
+                    dz = camera.position.z;
+                    angle = Math.atan2(dz, dx); // 计算初始角度（相机在水平面上的角度）
+                    radius = camera.position.length(); // 自动获取初始半径（相机到中心点的距离）
+                });
                 // 动画循环
                 const animate = () => {
                     this.threeData.frame = requestAnimationFrame(animate);
-                    
-                    // 计算相机的位置，使其围绕原点旋转
-                    angle += 0.01; // 旋转速度
-                    camera.position.x = radius * Math.cos(angle); // 根据角度计算 x 位置
-                    camera.position.z = radius * Math.sin(angle); // 根据角度计算 z 位置
+                    if(autoRun){
+                        // 计算相机的位置，使其围绕原点旋转
+                        angle += 0.01; // 旋转速度
+                        camera.position.x = radius * Math.cos(angle); // 根据角度计算 x 位置
+                        camera.position.z = radius * Math.sin(angle); // 根据角度计算 z 位置
+                    }
 
                     controls.update(); // 让 OrbitControls 进行平滑阻尼处理
                     renderer.render(scene, camera);
                 }
 
-                
+
             });
 
         }
