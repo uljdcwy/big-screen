@@ -133,6 +133,7 @@ export default {
         }
     },
     mounted() {
+        console.log("挂载执行了 home page")
         getWeatherNow().then((data) => {
 
             console.log("获取到的天气信息 now", data);
@@ -173,6 +174,7 @@ export default {
         this.showGlbModel();
     },
     unmounted() {
+        console.log("卸载执行了")
         clearInterval(this.timer);
 
         // 删除已注册的自定义 shape
@@ -364,7 +366,7 @@ export default {
             var myChart = echarts.init(document.getElementById('hotRanking'));
             this.bar1Instance.push(myChart);
 
-
+            console.log(myChart,"myChart")
             const setIntervalHotRanking = () => {
 
                 const res = {
