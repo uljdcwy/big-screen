@@ -1,14 +1,30 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router/index.js'
-import { store } from '@/store';
-console.log(router, "router");
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 
-if (process.env.NODE_ENV === 'development') {
-    require('@/mock')
+let app = null;
+
+/** 启动前的初始化，只执行一次 */
+export async function bootstrap() {
+  console.log('[vue] app bootstraped');
 }
 
-const app = createApp(App);
-app.use(router);
-app.use(store);
-app.mount('#app');
+/** 挂载函数：每次进入子应用时触发 */
+export async function mount(props) {
+  console.log('[vue] props from main framework', props);
+
+  app = createApp(App);
+  app.use(router);
+  app.use(store);
+  app.mount('#app'); // ⚠️ 必须与主应用的容器对应
+}
+
+/** 卸载函数：退出子应用时触发 */
+export async function unmount() {
+  if (app) {
+    app.unmount();
+    app = null;
+  }
+  console.log('[vue] app unmounted');
+}

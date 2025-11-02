@@ -95,7 +95,6 @@
 <script>
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { getBuildingGeo, getHotRanking, getElectricityRanking, getWaterRanking, getDrawPie, getDrawMPie, getStatisticsList } from "@/http/index";
 import * as echarts from 'echarts';
 import 'echarts-gl';  // 如果你使用 echarts-gl
 import fire from "@/assets/image/fire.png"
@@ -103,11 +102,11 @@ import water from "@/assets/image/water.png"
 import lai from "@/assets/image/lai.png"
 import lingitBg from "@/assets/image/lingit.png"
 import sky_texture from "@/assets/sky_texture.hdr"
-import { Font } from 'three/addons/loaders/FontLoader.js';
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+// import { Font } from 'three/addons/loaders/FontLoader.js';
+// import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+// import wrrhFont from "@/assets/image/wrrh.json"
 import { PMREMGenerator } from 'three/src/extras/PMREMGenerator.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
-import wrrhFont from "@/assets/image/wrrh.json"
 import buildingGlb from "@/assets/glbModel/building.glb"
 import groundGlb from "@/assets/glbModel/ground.glb"
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -229,11 +228,60 @@ export default {
 
 
             const setIntervalDrawMPie = () => {
-                getDrawMPie().then((data) => {
-                    drawMPie(data, chart, echarts);
-                });
+                drawMPie([
+                    {
+                        pieName: "客诉",
+                        centerName: "客诉\n分类",
+                        data: {
+                            "投诉": 10,
+                            "报修": 10,
+                            "报停": 30,
+                            "资询": 30,
+                            "其他": 20,
+                        },
+                        dataColor: {
+                            "投诉": ['#FFBF7F', '#FFD565'],
+                            "报修": ['#398EEC', '#398EEC'],
+                            "报停": ['#55F7D4', '#45B7EF'],
+                            "资询": ['#70D19D', '#90E987'],
+                            "其他": ['#BCCFFD', '#5A7ED8']
+                        }
+                    },
+                    {
+                        pieName: "来源",
+                        centerName: "来源\n渠道",
+                        data: {
+                            "来电": 20,
+                            "微信": 20,
+                            "线下": 30,
+                            "其他": 20
+                        },
+                        dataColor: {
+                            "来电": ['#FFBF7F', '#FFD664'],
+                            "微信": ['#54F6D3', '#46B8EF'],
+                            "线下": ['#70D29C', '#91E987'],
+                            "其他": ['#BCCFFD', '#5479D6'],
+                        }
+                    },
+                    {
+                        pieName: "进展",
+                        centerName: "进展\n状态",
+                        data: {
+                            "已完成": 20,
+                            "已派单": 20,
+                            "处理中": 30,
+                            "已回访": 20
+                        },
+                        dataColor: {
+                            "已完成": ['#FFBF7F', '#FFD664'],
+                            "已派单": ['#54F6D3', '#46B8EF'],
+                            "处理中": ['#70D29C', '#91E987'],
+                            "已回访": ['#BCCFFD', '#5479D6']
+                        }
+                    }
+                ], chart, echarts);
             }
-            this.timerData.push(setInterval(setIntervalDrawMPie, 5000));
+            // this.timerData.push(setInterval(setIntervalDrawMPie, 5000));
             setIntervalDrawMPie();
         },
         drawPie() {
@@ -241,22 +289,74 @@ export default {
 
 
             const setIntervalDrawPie = () => {
-                getDrawPie().then((optionsData) => {
-                    const data = {
-                        allCount: 0,
-                        legendList: [],
-                        optionsData: optionsData
-                    };
 
-                    optionsData.forEach((item) => {
-                        data.allCount += item.value;
-                        data.legendList.push(item.name)
-                    })
+                const optionsData = [
+                    {
+                        name: "已派单",
+                        value: 116,
+                        itemStyle: {
+                            color: "#1EF0D7",
+                            opacity: 0.5, // 默认不透明度
+                        },
+                    },
+                    {
+                        name: "处理中",
+                        value: 8,
+                        itemStyle: {
+                            color: "#3D67FF",
+                            opacity: 0.5, // 默认不透明度
+                        },
+                    },
+                    {
+                        name: "已完成",
+                        value: 5,
+                        itemStyle: {
+                            color: "#47BC79",
+                            opacity: 0.5, // 默认不透明度
+                        },
+                    },
+                    {
+                        name: "已回访",
+                        value: 1,
+                        itemStyle: {
+                            color: "#FFC615",
+                            opacity: 0.5, // 默认不透明度
+                        },
+                    },
+                    {
+                        name: "已超时",
+                        value: 2,
+                        itemStyle: {
+                            color: "#8C3EE6",
+                            opacity: 0.5, // 默认不透明度
+                        },
+                    },
+                    {
+                        name: "满意度",
+                        value: 0,
+                        itemStyle: {
+                            color: "#34B4FF",
+                            opacity: 0.5, // 默认不透明度
+                        },
+                    }
+                ]
 
-                    setPie(chart, data);
-                });
+
+                const data = {
+                    allCount: 0,
+                    legendList: [],
+                    optionsData: optionsData
+                };
+
+                optionsData.forEach((item) => {
+                    data.allCount += item.value;
+                    data.legendList.push(item.name)
+                })
+
+                setPie(chart, data);
+
             }
-            this.timerData.push(setInterval(setIntervalDrawPie, 5000));
+            // this.timerData.push(setInterval(setIntervalDrawPie, 5000));
             setIntervalDrawPie();
 
         },
@@ -267,35 +367,49 @@ export default {
 
             const setIntervalHotRanking = () => {
 
-                getHotRanking().then((res) => {
-                    this.barFn({
-                        // 第一组条形颜色
-                        mainColorFirstTransparent: "RGBA(79, 179, 20, 0)",
-                        mainColorFirst: "RGBA(79, 179, 20, 1)",
-                        // 3D浅边颜色
-                        mainColorFourTransparent: "RGBA(90, 162, 12, 0)",
-                        mainColorFour: "RGBA(90, 162, 12, 1)",
+                const res = {
+                    barName: '热耗',
+                    xData: ["敬老院", "实验高中", "一中", "宜春小区", "广泽", "招待所"],
+                    age: '@integer(18, 60)',
+                    yData: [{
+                        barName: "百分比",
+                        data: [20, 90, 30, 30, 90, 30]
+                    }, {
+                        barName: "室温",
+                        data: [30, 50, 30, 30, 30, 30]
+                    }]
+                }
 
 
-                        // 第二组件条颜色
-                        mainColorTwoTransparent: "rgba(45, 210, 205, 0)",
-                        mainColorTwo: "RGBA(45, 210, 205, 1)",
-                        // 3D浅边颜色
-                        mainColorThreeTransparent: "RGBA(42, 170, 168, 0)",
-                        mainColorThree: "RGBA(42, 170, 168, 1)",
+                this.barFn({
+                    // 第一组条形颜色
+                    mainColorFirstTransparent: "RGBA(79, 179, 20, 0)",
+                    mainColorFirst: "RGBA(79, 179, 20, 1)",
+                    // 3D浅边颜色
+                    mainColorFourTransparent: "RGBA(90, 162, 12, 0)",
+                    mainColorFour: "RGBA(90, 162, 12, 1)",
 
-                        firstBarName: res.yData[0].barName,
-                        TwoBarName: res.yData[1].barName,
 
-                        xData: res.xData,
-                        showDataFrist: res.yData[0].data,
-                        showDataTwo: res.yData[1].data,
-                        barTitle: res.barName
-                    }, myChart);
-                })
+                    // 第二组件条颜色
+                    mainColorTwoTransparent: "rgba(45, 210, 205, 0)",
+                    mainColorTwo: "RGBA(45, 210, 205, 1)",
+                    // 3D浅边颜色
+                    mainColorThreeTransparent: "RGBA(42, 170, 168, 0)",
+                    mainColorThree: "RGBA(42, 170, 168, 1)",
+
+                    firstBarName: res.yData[0].barName,
+                    TwoBarName: res.yData[1].barName,
+
+                    xData: res.xData,
+                    showDataFrist: res.yData[0].data,
+                    showDataTwo: res.yData[1].data,
+                    barTitle: res.barName
+                }, myChart);
+
+
             };
 
-            this.timerData.push(setInterval(setIntervalHotRanking, 5000));
+            // this.timerData.push(setInterval(setIntervalHotRanking, 5000));
             setIntervalHotRanking();
         },
         electricityRanking() {
@@ -304,36 +418,47 @@ export default {
 
 
             const setIntervalElectricityRanking = () => {
+                const res = {
+                    barName: '电耗',
+                    xData: ["敬老院", "实验高中", "一中", "宜春小区", "广泽", "招待所"],
+                    age: '@integer(18, 60)',
+                    yData: [{
+                        barName: "百分比",
+                        data: [20, 90, 30, 30, 90, 30]
+                    }, {
+                        barName: "室温",
+                        data: [30, 50, 30, 30, 30, 30]
+                    }]
+                }
 
-                getElectricityRanking().then((res) => {
-                    this.barFn({
-                        // 第一组条形颜色
-                        mainColorFirstTransparent: "RGBA(245, 132, 8, 0)",
-                        mainColorFirst: "RGBA(245, 132, 8, 1)",
-                        // 3D浅边颜色
-                        mainColorFourTransparent: "RGBA(161, 108, 12, 0)",
-                        mainColorFour: "RGBA(161, 108, 12, 1)",
+                this.barFn({
+                    // 第一组条形颜色
+                    mainColorFirstTransparent: "RGBA(245, 132, 8, 0)",
+                    mainColorFirst: "RGBA(245, 132, 8, 1)",
+                    // 3D浅边颜色
+                    mainColorFourTransparent: "RGBA(161, 108, 12, 0)",
+                    mainColorFour: "RGBA(161, 108, 12, 1)",
 
 
-                        // 第二组件条颜色
-                        mainColorTwoTransparent: "RGBA(51, 246, 235, 0)",
-                        mainColorTwo: "RGBA(51, 246, 235, 1)",
-                        // 3D浅边颜色
-                        mainColorThreeTransparent: "RGBA(51, 248, 238, 0)",
-                        mainColorThree: "RGBA(51, 248, 238, 1)",
+                    // 第二组件条颜色
+                    mainColorTwoTransparent: "RGBA(51, 246, 235, 0)",
+                    mainColorTwo: "RGBA(51, 246, 235, 1)",
+                    // 3D浅边颜色
+                    mainColorThreeTransparent: "RGBA(51, 248, 238, 0)",
+                    mainColorThree: "RGBA(51, 248, 238, 1)",
 
-                        firstBarName: res.yData[0].barName,
-                        TwoBarName: res.yData[1].barName,
+                    firstBarName: res.yData[0].barName,
+                    TwoBarName: res.yData[1].barName,
 
-                        xData: res.xData,
-                        showDataFrist: res.yData[0].data,
-                        showDataTwo: res.yData[1].data,
-                        barTitle: res.barName
-                    }, myChart);
-                })
+                    xData: res.xData,
+                    showDataFrist: res.yData[0].data,
+                    showDataTwo: res.yData[1].data,
+                    barTitle: res.barName
+                }, myChart);
+
             };
 
-            this.timerData.push(setInterval(setIntervalElectricityRanking, 5000));
+            // this.timerData.push(setInterval(setIntervalElectricityRanking, 5000));
             setIntervalElectricityRanking();
 
         },
@@ -346,36 +471,48 @@ export default {
 
             const setIntervalWaterRanking = () => {
 
-                getWaterRanking().then((res) => {
-                    this.barFn({
-                        // 第一组条形颜色
-                        mainColorFirstTransparent: "RGBA(8, 137, 252, 0)",
-                        mainColorFirst: "RGBA(8, 137, 252, 1)",
-                        // 3D浅边颜色
-                        mainColorFourTransparent: "RGBA(11, 92, 162, 0)",
-                        mainColorFour: "RGBA(11, 92, 162, 1)",
+
+                const res = {
+                    barName: '水耗',
+                    xData: ["敬老院", "实验高中", "一中", "宜春小区", "广泽", "招待所"],
+                    age: '@integer(18, 60)',
+                    yData: [{
+                        barName: "百分比",
+                        data: [20, 90, 30, 30, 90, 30]
+                    }, {
+                        barName: "室温",
+                        data: [30, 50, 30, 30, 30, 30]
+                    }]
+                }
+                this.barFn({
+                    // 第一组条形颜色
+                    mainColorFirstTransparent: "RGBA(8, 137, 252, 0)",
+                    mainColorFirst: "RGBA(8, 137, 252, 1)",
+                    // 3D浅边颜色
+                    mainColorFourTransparent: "RGBA(11, 92, 162, 0)",
+                    mainColorFour: "RGBA(11, 92, 162, 1)",
 
 
-                        // 第二组件条颜色
-                        mainColorTwoTransparent: "RGBA(51, 246, 235, 0)",
-                        mainColorTwo: "RGBA(51, 246, 235, 1)",
-                        // 3D浅边颜色
-                        mainColorThreeTransparent: "RGBA(39, 164, 158, 0)",
-                        mainColorThree: "RGBA(39, 164, 158, 1)",
+                    // 第二组件条颜色
+                    mainColorTwoTransparent: "RGBA(51, 246, 235, 0)",
+                    mainColorTwo: "RGBA(51, 246, 235, 1)",
+                    // 3D浅边颜色
+                    mainColorThreeTransparent: "RGBA(39, 164, 158, 0)",
+                    mainColorThree: "RGBA(39, 164, 158, 1)",
 
-                        firstBarName: res.yData[0].barName,
-                        TwoBarName: res.yData[1].barName,
+                    firstBarName: res.yData[0].barName,
+                    TwoBarName: res.yData[1].barName,
 
-                        xData: res.xData,
-                        showDataFrist: res.yData[0].data,
-                        showDataTwo: res.yData[1].data,
-                        barTitle: res.barName
-                    }, myChart);
-                })
+                    xData: res.xData,
+                    showDataFrist: res.yData[0].data,
+                    showDataTwo: res.yData[1].data,
+                    barTitle: res.barName
+                }, myChart);
+
             };
 
 
-            this.timerData.push(setInterval(setIntervalWaterRanking, 5000));
+            // this.timerData.push(setInterval(setIntervalWaterRanking, 5000));
             setIntervalWaterRanking();
 
         },
@@ -658,372 +795,397 @@ export default {
         },
         getStatisticsList() {
             const setIntervalStatisticsList = () => {
-                getStatisticsList().then((data) => {
-                    const imgList = [fire, lai, water];
-                    data.forEach((elem, idx) => {
-                        if (idx === 0 || idx === 1) {
-                            elem.image = imgList[0];
-                        } else if (idx === 2 || idx === 3) {
-                            elem.image = imgList[1];
-                        } else {
-                            elem.image = imgList[2];
-                        }
-                    })
+                const data = [{
+                    tip: "本季热耗",
+                    count: "763",
+                    unit: "（万GJ）",
+                }, {
+                    tip: "热单耗",
+                    count: "28.39",
+                    unit: "（W/m³）",
+                },
+                {
+                    tip: "本季电耗",
+                    count: "393.7",
+                    unit: "（万kWh）",
+                }, {
+                    tip: "电单耗",
+                    count: "0.91",
+                    unit: "（kWh/㎡·a）",
+                },
+                {
+                    tip: "本季水耗",
+                    count: "11.36",
+                    unit: "（万t）",
+                }, {
+                    tip: "水单耗",
+                    count: "26.35",
+                    unit: "（L/㎡·a）",
+                }
+                ]
 
-                    this.statisticsList = data;
+                const imgList = [fire, lai, water];
+                data.forEach((elem, idx) => {
+                    if (idx === 0 || idx === 1) {
+                        elem.image = imgList[0];
+                    } else if (idx === 2 || idx === 3) {
+                        elem.image = imgList[1];
+                    } else {
+                        elem.image = imgList[2];
+                    }
                 })
+
+                this.statisticsList = data;
+
             }
 
 
-            this.timerData.push(setInterval(setIntervalStatisticsList, 5000));
+            // this.timerData.push(setInterval(setIntervalStatisticsList, 5000));
             setIntervalStatisticsList();
         },
         showGlbModel() {
-            getBuildingGeo().then(async (data) => {
+            // 创建场景
+            const scene = new THREE.Scene();
+            this.threeData.scene = scene;
+            const threeModel = document.getElementById("threeModel");
 
-                // 创建场景
-                const scene = new THREE.Scene();
-                this.threeData.scene = scene;
+            const width = threeModel.offsetWidth;
+            const height = threeModel.offsetHeight;
+
+            // 创建相机
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.01, 1000);
+            camera.position.set(0.08, 0.05, 0.22); // 适当调整相机位置
+
+            // 创建 WebGL 渲染器
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            this.threeData.renderer = renderer;
+            renderer.setSize(width, height);
+            threeModel.appendChild(renderer.domElement);
+            // 设置半透明背景色
+            renderer.setClearColor(new THREE.Color(0xffffff), 0.01);
+
+            // 添加环境光
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+            scene.add(ambientLight);
+
+            // 添加方向光
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
+            directionalLight.position.set(-1.2, 1.34, 4.92);
+
+            const buildingInitScale = 0.001;
+            const groundInitScale = 0.001;
+
+            const modelPositionY = 0;
+            const modelPositionZ = 0;
+            const modelPositionX = 0;
+
+
+            // const fontJson = new Font(wrrhFont);
+
+
+
+            // 创建一个组，将平面和文本添加到该组中
+            const group = new THREE.Group();
+            // 当前的文本 Mesh
+            // let currentTextMesh = null;
+            // 初始隐藏 group
+            group.visible = false;
+
+            // 使用 lil-gui 调试相机位置
+            // const gui = new GUI();
+            // const cameraFolder = gui.addFolder('Camera Position');
+            // cameraFolder.add(camera.position, 'x', -50, 50, 0.01).name('X Axis');
+            // cameraFolder.add(camera.position, 'y', -50, 50, 0.01).name('Y Axis');
+            // cameraFolder.add(camera.position, 'z', -50, 50, 0.01).name('Z Axis');
+            // cameraFolder.open();
+
+            // 创建文本的函数
+            // function createText(font, text) {
+            //     // 删除旧的文本几何体
+            //     if (currentTextMesh) {
+            //         group.remove(currentTextMesh);
+            //     }
+            //     const geometry = new TextGeometry(text, {
+            //         font: font,
+            //         size: (text.length < 4) ? 0.03 : 0.025,
+            //         depth: 0.001,  // 设置文本的深度（厚度）
+            //     });
+
+            //     // 设置材质
+            //     const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            //     currentTextMesh = new THREE.Mesh(geometry, material);
+            //     const leftRaduce = text.length * 0.01 + 0.01;
+            //     // 将新文本添加到场景
+            //     scene.add(currentTextMesh);
+            //     currentTextMesh.position.x = -leftRaduce;
+            //     currentTextMesh.position.y = 0.03;
+
+            //     // 调整文本位置
+            //     return currentTextMesh;
+            // }
+
+
+            // 加载 GLB 模型
+            const loader = new GLTFLoader();
+            loader.load(groundGlb, (gltf) => {
+                const model = gltf.scene;
+
+                // 计算模型的包围盒
+                const box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+
+                // 让模型居中
+                model.position.sub(center);
+
+
+                // 默认透明度设置为 1
+                model.traverse((child, idx) => {
+                    if (child.isMesh) {
+                        console.log(child, "child", idx)
+                    }
+                });
+                console.log(model, "model");
+                model.children[7].material = new THREE.MeshStandardMaterial({
+                    transparent: true, // 启用透明度
+                    opacity: 0      // 设置透明度
+                });
+
+
+                // 添加到场景
+                scene.add(model);
+                model.position.set(modelPositionZ, modelPositionY, modelPositionX);
+                // 统一缩放模型（所有轴向缩放为 2 倍）
+                model.scale.set(groundInitScale, groundInitScale, groundInitScale); // 设置缩放为 2x
+
+
+                // 让相机看向模型
+                camera.lookAt(0, 0, 0);
+            });
+
+
+            loader.load(buildingGlb, (gltf) => {
+                const model = gltf.scene;
+                // 统一缩放模型（所有轴向缩放为 2 倍）
+                model.scale.set(buildingInitScale, buildingInitScale, buildingInitScale); // 设置缩放为 2x
+
+                console.log(model.children.length)
+
+                model.position.set(modelPositionZ, modelPositionY, modelPositionX);
+
+                let initColorNumber = null;
+
+                // 默认透明度设置为 1
+                model.traverse((child) => {
+                    if (child.isMesh) {
+                        if (!initColorNumber) {
+                            initColorNumber = child.material.color.getHex()
+                        }
+                        // 启用透明度
+                        child.material.transparent = true;
+                        // 设置默认透明度为 1（不透明）
+                        child.material.opacity = 1;
+                    }
+                });
+
+                // 为每个模型设置 userData 中的 index 属性
+                model.children.forEach((mesh, index) => {
+                    mesh.userData.index = index;
+                });
+
+                // 添加到场景
+                scene.add(model);
+
                 const threeModel = document.getElementById("threeModel");
+                // 添加鼠标事件监听器
+                threeModel.addEventListener('mousemove', onMouseMove, false);
+                // threeModel.addEventListener('click', onMouseClick, false);
 
-                const width = threeModel.offsetWidth;
-                const height = threeModel.offsetHeight;
-
-                // 创建相机
-                const camera = new THREE.PerspectiveCamera(75, width / height, 0.01, 1000);
-                camera.position.set(0.06, 0.05, 0.22); // 适当调整相机位置
-
-                // 创建 WebGL 渲染器
-                const renderer = new THREE.WebGLRenderer({ antialias: true });
-                this.threeData.renderer = renderer;
-                renderer.setSize(width, height);
-                threeModel.appendChild(renderer.domElement);
-                // 设置半透明背景色
-                renderer.setClearColor(new THREE.Color(0xffffff), 0.01);
-
-                // 添加环境光
-                const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-                scene.add(ambientLight);
-
-                // 添加方向光
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
-                directionalLight.position.set(-1.2, 1.34, 4.92);
-
-                const buildingInitScale = 0.001;
-                const groundInitScale = 0.001;
-
-                const modelPositionY = 0;
-                const modelPositionZ = 0;
-                const modelPositionX = 0;
+                // 初始化 Raycaster 和鼠标向量
+                const raycaster = new THREE.Raycaster();  // 定义 raycaster
+                const mouse = new THREE.Vector2();        // 定义 mouse 向量
+               //  const recordHoverData = [];
 
 
-                const fontJson = new Font(wrrhFont);
+                // 创建 PMREM 生成器
+                const pmremGenerator = new PMREMGenerator(renderer);
+                // 使用 RGBELoader 加载 HDR 环境图
+                new RGBELoader().load(sky_texture, (hdrTexture) => {
+                    console.log(hdrTexture, "hdrTexture");
+                    // 从 HDR 图像生成 PMREM 贴图
+                    const pmremTexture = pmremGenerator.fromEquirectangular(hdrTexture).texture;
+                    scene.background = pmremTexture;   // 作为背景图像
+                    scene.environment = pmremTexture;  // 作为全局环境贴图
+
+                    setTimeout(() => {
+                        animate();
+                    }, 3000);
+
+                });
 
 
+                // 加载图片纹理
+                const textureLoader = new THREE.TextureLoader();
+                const texture = textureLoader.load(lingitBg);  // 替换为你的图片路径
 
-                // 创建一个组，将平面和文本添加到该组中
-                const group = new THREE.Group();
-                // 当前的文本 Mesh
-                let currentTextMesh = null;
-                // 初始隐藏 group
-                group.visible = false;
+                const initWidthPlane = 0.15;
 
-                // 使用 lil-gui 调试相机位置
-                // const gui = new GUI();
-                // const cameraFolder = gui.addFolder('Camera Position');
-                // cameraFolder.add(camera.position, 'x', -50, 50, 0.01).name('X Axis');
-                // cameraFolder.add(camera.position, 'y', -50, 50, 0.01).name('Y Axis');
-                // cameraFolder.add(camera.position, 'z', -50, 50, 0.01).name('Z Axis');
-                // cameraFolder.open();
+                // 创建平面几何体
+                const geometry = new THREE.PlaneGeometry(initWidthPlane, initWidthPlane * 1.3);  // 平面大小 5x5
 
-                // 创建文本的函数
-                function createText(font, text) {
-                    // 删除旧的文本几何体
-                    if (currentTextMesh) {
-                        group.remove(currentTextMesh);
-                    }
-                    const geometry = new TextGeometry(text, {
-                        font: font,
-                        size: (text.length < 4) ? 0.03 : 0.025,
-                        depth: 0.001,  // 设置文本的深度（厚度）
-                    });
+                // 使用图片纹理创建材质
+                const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
 
-                    // 设置材质
-                    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                    currentTextMesh = new THREE.Mesh(geometry, material);
-                    const leftRaduce = text.length * 0.01 + 0.01;
-                    // 将新文本添加到场景
-                    scene.add(currentTextMesh);
-                    currentTextMesh.position.x = -leftRaduce;
-                    currentTextMesh.position.y = 0.03;
+                // 创建平面 Mesh
+                const plane = new THREE.Mesh(geometry, material);
 
-                    // 调整文本位置
-                    return currentTextMesh;
+                // 将平面和文本添加到组
+                group.add(plane);
+
+                // 设置平面为默认隐藏
+                /// plane.visible = false; // 默认为隐藏
+
+                // 将组添加到场景中
+                scene.add(group);
+
+                // 获取模型的高度
+                // function getModelHeight(model) {
+                //     const box = new THREE.Box3().setFromObject(model);
+                //     const height = box.max.y - box.min.y; // 计算高度
+                //     return height;
+                // }
+
+                function onMouseMove(event) {
+
+                    const rect = threeModel.getBoundingClientRect();
+                    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+                    // 设置射线从相机发射
+                    raycaster.setFromCamera(mouse, camera); // 从相机发射射线
+
+                    // 计算与模型的交点
+                    // const intersects = raycaster.intersectObject(model, true); // 使用递归方式检测模型所有部分
+                    // console.log(intersects, "intersects")
+                    // if (intersects.length > 0) {
+                    //     recordHoverData.forEach((item) => {
+                    //         item.object.material.opacity = 1; // 设置透明度
+                    //     })
+                    //     const intersection = intersects[0];
+                    //     // 获取 data  楼栋 中的数据数据值;
+                    //     const currentShow = data[intersection.object.userData.index];
+                    //     if (!currentShow) {
+                    //         return;
+                    //     }
+                    //     // 将平面移动到交点的上方 (假设"上方"是 Y 轴上方，增加一个偏移量)
+                    //     group.position.copy(intersection.point);
+                    //     console.log(currentShow, "currentShow", plane.position);
+
+                    //     // 获取模型的高度
+                    //     const modelHeight = getModelHeight(intersection.object);
+
+
+                    //     // 计算相机和物体之间的距离
+                    //     // const distance = camera.position.z - group.position.z;
+                    //     // 根据距离调整物体的缩放比例
+                    //     // const scale = 1 * (distance / 1);  // 使用50作为距离参考值，这可以根据需要调整
+                    //     // group.scale.set(scale, scale, scale);  // 更新物体的缩放
+                    //     group.position.y += modelHeight / 2 + initWidthPlane / 2;  // 向上偏移，确保平面位于模型的顶部上方
+
+                    //     const textMesh = createText(fontJson, currentShow);
+
+
+                    //     group.add(textMesh);
+
+                    //     // 如果鼠标悬停在模型上，改变颜色为红色
+                    //     const mashObject = intersects[0].object;
+
+                    //     const originalMaterial = mashObject.material; // 获取原始材质
+                    //     const newMaterial = originalMaterial.clone(); // 克隆材质
+
+                    //     newMaterial.transparent = true; // 启用透明
+                    //     newMaterial.opacity = 0.5; // 设置透明度
+
+                    //     mashObject.material = newMaterial; // 将新材质赋值给网格对象
+
+                    //     group.visible = true;
+                    //     recordHoverData.push(intersects[0]);
+                    // } else {
+                    //     group.visible = false;
+                    //     // 如果鼠标没有悬停在任何地方，恢复透明度为 1
+                    //     model.traverse((child) => {
+                    //         if (child.isMesh && initColorNumber != child.material.color.getHex()) {
+                    //             child.material.opacity = 1; // 设置透明度
+                    //         }
+                    //     });
+                    // }
                 }
+                // const That = this;
 
-
-                // 加载 GLB 模型
-                const loader = new GLTFLoader();
-                loader.load(groundGlb, (gltf) => {
-                    const model = gltf.scene;
-
-                    // 计算模型的包围盒
-                    const box = new THREE.Box3().setFromObject(model);
-                    const center = box.getCenter(new THREE.Vector3());
-
-                    // 让模型居中
-                    model.position.sub(center);
-
-
-                    // 默认透明度设置为 1
-                    model.traverse((child, idx) => {
-                        if (child.isMesh) {
-                            console.log(child, "child", idx)
-                        }
-                    });
-                    console.log(model, "model");
-                    model.children[7].material = new THREE.MeshStandardMaterial({
-                        transparent: true, // 启用透明度
-                        opacity: 0      // 设置透明度
-                    });
-
-
-                    // 添加到场景
-                    scene.add(model);
-                    model.position.set(modelPositionZ, modelPositionY, modelPositionX);
-                    // 统一缩放模型（所有轴向缩放为 2 倍）
-                    model.scale.set(groundInitScale, groundInitScale, groundInitScale); // 设置缩放为 2x
-
-
-                    // 让相机看向模型
-                    camera.lookAt(0, 0, 0);
-                });
-
-
-                loader.load(buildingGlb, (gltf) => {
-                    const model = gltf.scene;
-                    // 统一缩放模型（所有轴向缩放为 2 倍）
-                    model.scale.set(buildingInitScale, buildingInitScale, buildingInitScale); // 设置缩放为 2x
-
-                    console.log(model.children.length)
-
-                    model.position.set(modelPositionZ, modelPositionY, modelPositionX);
-
-                    let initColorNumber = null;
-
-                    // 默认透明度设置为 1
-                    model.traverse((child) => {
-                        if (child.isMesh) {
-                            if (!initColorNumber) {
-                                initColorNumber = child.material.color.getHex()
-                            }
-                            // 启用透明度
-                            child.material.transparent = true;
-                            // 设置默认透明度为 1（不透明）
-                            child.material.opacity = 1;
-                        }
-                    });
-
-                    // 为每个模型设置 userData 中的 index 属性
-                    model.children.forEach((mesh, index) => {
-                        mesh.userData.index = index;
-                    });
-
-                    // 添加到场景
-                    scene.add(model);
-
-                    const threeModel = document.getElementById("threeModel");
-                    // 添加鼠标事件监听器
-                    threeModel.addEventListener('mousemove', onMouseMove, false);
-                    threeModel.addEventListener('click', onMouseClick, false);
-
-                    // 初始化 Raycaster 和鼠标向量
-                    const raycaster = new THREE.Raycaster();  // 定义 raycaster
-                    const mouse = new THREE.Vector2();        // 定义 mouse 向量
-                    const recordHoverData = [];
-
-
-                    // 创建 PMREM 生成器
-                    const pmremGenerator = new PMREMGenerator(renderer);
-                    // 使用 RGBELoader 加载 HDR 环境图
-                    new RGBELoader().load(sky_texture, (hdrTexture) => {
-                        console.log(hdrTexture, "hdrTexture");
-                        // 从 HDR 图像生成 PMREM 贴图
-                        const pmremTexture = pmremGenerator.fromEquirectangular(hdrTexture).texture;
-                        scene.background = pmremTexture;   // 作为背景图像
-                        scene.environment = pmremTexture;  // 作为全局环境贴图
-
-                        setTimeout(() => {
-                            animate();
-                        }, 3000);
-
-                    });
-
-
-                    // 加载图片纹理
-                    const textureLoader = new THREE.TextureLoader();
-                    const texture = textureLoader.load(lingitBg);  // 替换为你的图片路径
-
-                    const initWidthPlane = 0.15;
-
-                    // 创建平面几何体
-                    const geometry = new THREE.PlaneGeometry(initWidthPlane, initWidthPlane * 1.3);  // 平面大小 5x5
-
-                    // 使用图片纹理创建材质
-                    const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
-
-                    // 创建平面 Mesh
-                    const plane = new THREE.Mesh(geometry, material);
-
-                    // 将平面和文本添加到组
-                    group.add(plane);
-
-                    // 设置平面为默认隐藏
-                    /// plane.visible = false; // 默认为隐藏
-
-                    // 将组添加到场景中
-                    scene.add(group);
-
-                    // 获取模型的高度
-                    function getModelHeight(model) {
-                        const box = new THREE.Box3().setFromObject(model);
-                        const height = box.max.y - box.min.y; // 计算高度
-                        return height;
-                    }
-
-                    function onMouseMove(event) {
-
-                        const rect = threeModel.getBoundingClientRect();
-                        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-                        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-                        // 设置射线从相机发射
-                        raycaster.setFromCamera(mouse, camera); // 从相机发射射线
-
-                        // 计算与模型的交点
-                        const intersects = raycaster.intersectObject(model, true); // 使用递归方式检测模型所有部分
-                        // console.log(intersects, "intersects")
-                        if (intersects.length > 0) {
-                            recordHoverData.forEach((item) => {
-                                item.object.material.opacity = 1; // 设置透明度
-                            })
-                            const intersection = intersects[0];
-                            // 获取 data  楼栋 中的数据数据值;
-                            const currentShow = data[intersection.object.userData.index];
-                            if (!currentShow) {
-                                return;
-                            }
-                            // 将平面移动到交点的上方 (假设"上方"是 Y 轴上方，增加一个偏移量)
-                            group.position.copy(intersection.point);
-                            console.log(currentShow, "currentShow", plane.position);
-
-                            // 获取模型的高度
-                            const modelHeight = getModelHeight(intersection.object);
-
-
-                            // 计算相机和物体之间的距离
-                            // const distance = camera.position.z - group.position.z;
-                            // 根据距离调整物体的缩放比例
-                            // const scale = 1 * (distance / 1);  // 使用50作为距离参考值，这可以根据需要调整
-                            // group.scale.set(scale, scale, scale);  // 更新物体的缩放
-                            group.position.y += modelHeight / 2 + initWidthPlane / 2;  // 向上偏移，确保平面位于模型的顶部上方
-
-                            const textMesh = createText(fontJson, currentShow);
-
-
-                            group.add(textMesh);
-
-                            // 如果鼠标悬停在模型上，改变颜色为红色
-                            const mashObject = intersects[0].object;
-
-                            const originalMaterial = mashObject.material; // 获取原始材质
-                            const newMaterial = originalMaterial.clone(); // 克隆材质
-
-                            newMaterial.transparent = true; // 启用透明
-                            newMaterial.opacity = 0.5; // 设置透明度
-
-                            mashObject.material = newMaterial; // 将新材质赋值给网格对象
-
-                            group.visible = true;
-                            recordHoverData.push(intersects[0]);
-                        } else {
-                            group.visible = false;
-                            // 如果鼠标没有悬停在任何地方，恢复透明度为 1
-                            model.traverse((child) => {
-                                if (child.isMesh && initColorNumber != child.material.color.getHex()) {
-                                    child.material.opacity = 1; // 设置透明度
-                                }
-                            });
-                        }
-                    }
-                    const That = this;
-
-                    // 如果你想处理鼠标点击事件
-                    function onMouseClick(event) {
-                        // 处理点击事件
-                        const intersects = raycaster.intersectObject(model, true);
-                        if (intersects.length > 0) {
-                            const intersection = intersects[0];
-                            // 获取 data  楼栋 中的数据数据值;
-                            const currentShow = data[intersection.object.userData.index];
-                            if (!currentShow) {
-                                return;
-                            }
-                            console.log(That.$router,"this.$router", That)
-                            That.$router.push({ name: 'OtherPage', params: { id: parseInt(currentShow) } }); // 跳转到 /user/123
-                            console.log("模型被点击！", event, currentShow);
-                        }
-                    }
-
-                });
-
-
-                // 添加 OrbitControls 交互控制器
-                const controls = new OrbitControls(camera, renderer.domElement);
-                this.threeData.controls = controls;
-
-
-                // 自动获取相机与中心点 (0, 0, 0) 的距离和角度
-                let angle = 0; // 初始角度
-                let radius = camera.position.length(); // 自动获取初始半径（相机到中心点的距离）
-
-                // 根据相机的初始位置计算角度
-                let dx = camera.position.x;
-                let dz = camera.position.z;
-                angle = Math.atan2(dz, dx); // 计算初始角度（相机在水平面上的角度）
-
-
-                let autoRun = true;
-
-                threeModel.addEventListener('mouseenter', () => {
-                    console.log('鼠标进入');
-                    autoRun = false;
-                });
-
-                threeModel.addEventListener('mouseleave', () => {
-                    console.log('鼠标离开');
-                    autoRun = true;
-                    dx = camera.position.x;
-                    dz = camera.position.z;
-                    angle = Math.atan2(dz, dx); // 计算初始角度（相机在水平面上的角度）
-                    radius = camera.position.length(); // 自动获取初始半径（相机到中心点的距离）
-                });
-                // 动画循环
-                const animate = () => {
-                    this.threeData.frame = requestAnimationFrame(animate);
-                    if(autoRun){
-                        // 计算相机的位置，使其围绕原点旋转
-                        angle += 0.01; // 旋转速度
-                        camera.position.x = radius * Math.cos(angle); // 根据角度计算 x 位置
-                        camera.position.z = radius * Math.sin(angle); // 根据角度计算 z 位置
-                    }
-
-                    controls.update(); // 让 OrbitControls 进行平滑阻尼处理
-                    renderer.render(scene, camera);
-                }
-
+                // 如果你想处理鼠标点击事件
+                // function onMouseClick(event) {
+                //     // 处理点击事件
+                //     const intersects = raycaster.intersectObject(model, true);
+                //     if (intersects.length > 0) {
+                //         const intersection = intersects[0];
+                //         // 获取 data  楼栋 中的数据数据值;
+                //         const currentShow = data[intersection.object.userData.index];
+                //         if (!currentShow) {
+                //             return;
+                //         }
+                //         console.log(That.$router, "this.$router", That)
+                //         That.$router.push({ name: 'OtherPage', params: { id: parseInt(currentShow) } }); // 跳转到 /user/123
+                //         console.log("模型被点击！", event, currentShow);
+                //     }
+                // }
 
             });
+
+
+            // 添加 OrbitControls 交互控制器
+            const controls = new OrbitControls(camera, renderer.domElement);
+            this.threeData.controls = controls;
+
+
+            // 自动获取相机与中心点 (0, 0, 0) 的距离和角度
+            let angle = 0; // 初始角度
+            let radius = camera.position.length(); // 自动获取初始半径（相机到中心点的距离）
+
+            // 根据相机的初始位置计算角度
+            let dx = camera.position.x;
+            let dz = camera.position.z;
+            angle = Math.atan2(dz, dx); // 计算初始角度（相机在水平面上的角度）
+
+
+            let autoRun = true;
+
+            threeModel.addEventListener('mouseenter', () => {
+                console.log('鼠标进入');
+                autoRun = false;
+            });
+
+            threeModel.addEventListener('mouseleave', () => {
+                console.log('鼠标离开');
+                autoRun = true;
+                dx = camera.position.x;
+                dz = camera.position.z;
+                angle = Math.atan2(dz, dx); // 计算初始角度（相机在水平面上的角度）
+                radius = camera.position.length(); // 自动获取初始半径（相机到中心点的距离）
+            });
+            // 动画循环
+            const animate = () => {
+                this.threeData.frame = requestAnimationFrame(animate);
+                if (autoRun) {
+                    // 计算相机的位置，使其围绕原点旋转
+                    angle += 0.01; // 旋转速度
+                    camera.position.x = radius * Math.cos(angle); // 根据角度计算 x 位置
+                    camera.position.z = radius * Math.sin(angle); // 根据角度计算 z 位置
+                }
+
+                controls.update(); // 让 OrbitControls 进行平滑阻尼处理
+                renderer.render(scene, camera);
+            }
+
+
 
         }
     },

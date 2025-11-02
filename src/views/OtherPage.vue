@@ -119,24 +119,30 @@
                   <div v-if="idxChild === 0" class="building-img"
                     @mouseleave="setTeleport('leave', 'building-left' + idx, itemChild)"
                     @mouseenter="setTeleport('enter', 'building-left' + idx, itemChild)" :class="'building-left' + idx">
-                    <img class="status-img building-hover-show" v-if="itemChild.temperatureSensing" src="@/assets/image/hover-left.png" alt="">
-                    <img class="status-img" v-show="!itemChild.temperatureSensing" src="@/assets/image/disabled-left.png" alt="">
+                    <img class="status-img building-hover-show" v-if="itemChild.temperatureSensing"
+                      src="@/assets/image/hover-left.png" alt="">
+                    <img class="status-img" v-show="!itemChild.temperatureSensing"
+                      src="@/assets/image/disabled-left.png" alt="">
                     <img src="@/assets/image/default-left.png" alt="">
                   </div>
                   <div v-else-if="idxChild === (item.buildingRoomCount.length - 1)"
                     @mouseleave="setTeleport('leave', 'building-right' + idx, itemChild)"
                     @mouseenter="setTeleport('enter', 'building-right' + idx, itemChild)" class="building-img"
                     :class="'building-right' + idx">
-                    <img class="status-img building-hover-show" v-if="itemChild.temperatureSensing" src="@/assets/image/hover-right.png" alt="">
-                    <img class="status-img" v-show="!itemChild.temperatureSensing" src="@/assets/image/disabled-right.png" alt="">
+                    <img class="status-img building-hover-show" v-if="itemChild.temperatureSensing"
+                      src="@/assets/image/hover-right.png" alt="">
+                    <img class="status-img" v-show="!itemChild.temperatureSensing"
+                      src="@/assets/image/disabled-right.png" alt="">
                     <img src="@/assets/image/default-right.png" alt="">
                   </div>
                   <div v-else class="building-img"
                     @mouseleave="setTeleport('leave', 'building-center' + idx + '' + idxChild, itemChild)"
                     @mouseenter="setTeleport('enter', 'building-center' + idx + '' + idxChild, itemChild)"
                     :class="'building-center' + idx + '' + idxChild">
-                    <img class="status-img building-hover-show" v-if="itemChild.temperatureSensing" src="@/assets/image/hover-center.png" alt="">
-                    <img class="status-img" v-show="!itemChild.temperatureSensing" src="@/assets/image/disabled-center.png" alt="">
+                    <img class="status-img building-hover-show" v-if="itemChild.temperatureSensing"
+                      src="@/assets/image/hover-center.png" alt="">
+                    <img class="status-img" v-show="!itemChild.temperatureSensing"
+                      src="@/assets/image/disabled-center.png" alt="">
                     <img src="@/assets/image/default-center.png" alt="">
                   </div>
                 </template>
@@ -199,7 +205,6 @@
 </template>
 
 <script>
-import { getAllDataList, getDrawWave, getUnitInfoList, getHotDatList, getDrawPoint, getNotifyInfo, getBuildingInfo } from "@/http";
 import water from "@/assets/image/water.png"
 import lai from "@/assets/image/lai.png"
 import userCount from "@/assets/image/userCount.png"
@@ -301,10 +306,1680 @@ export default {
   methods: {
     getBuildingInfo() {
       const setIntervalBuildingInfo = () => {
-        getBuildingInfo().then((data) => {
+          const data = {
+            buildingInfo: [
+              {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: false,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: false,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: false,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }, {
+                buildingRoomCount: [{
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }, {
+                  roomNumber: "1074",
+                  temperatureSensing: true,
+                  roomCode: "10912354452285",
+                  roomInfo: [
+                    {
+                      label1: "阀门开度：",
+                      value1: "50",
+                      label2: "室温（℃）：",
+                      value2: "10"
+                    },
+                    {
+                      label1: "供温：",
+                      value1: "25.4",
+                      label2: "回温（℃）：",
+                      value2: "20"
+                    },
+                    {
+                      label1: "流速（m³/h）：",
+                      value1: "0.25",
+                      label2: "热功率（kwh）：",
+                      value2: "0"
+                    }
+                  ]
+                }]
+              }
+            ],
+            buildingTitle: "小区名字 1栋 1单元 低区"
+          };
           this.buildingLayerCount = data.buildingInfo;
           this.buildingTitle = data.buildingTitle
-        });
       };
 
       this.timerData.push(setInterval(setIntervalBuildingInfo, 5000))
@@ -374,12 +2049,40 @@ export default {
     getAllDataList() {
       const imgList = [userCount, openCount, hotNoodle, allCount, water, lai]
       const setIntervalAllDataList = () => {
-        getAllDataList().then((data) => {
-          data.forEach((elem, idx) => {
-            elem.image = imgList[idx]
-          })
-          this.allDataList = data;
-        });
+        const data = [
+          {
+            tip: "用户数",
+            count: "2,763",
+            unit: "",
+          }, {
+            tip: "开栓数",
+            count: "335",
+            unit: "",
+          },
+          {
+            tip: "供热面积",
+            count: "34773",
+            unit: "",
+          }, {
+            tip: "累计数量",
+            count: "26",
+            unit: "",
+          },
+          {
+            tip: "累计水量",
+            count: "17",
+            unit: "",
+          }, {
+            tip: "单位面积能耗",
+            count: "2.99",
+            unit: "",
+          }
+        ];
+
+        data.forEach((elem, idx) => {
+          elem.image = imgList[idx]
+        })
+        this.allDataList = data;
       };
 
       this.timerData.push(setInterval(setIntervalAllDataList, 5000))
@@ -390,18 +2093,44 @@ export default {
       console.log(myChart, "myChart");
 
       const setIntervalDrawWave = () => {
-        getDrawWave().then((data) => {
-          drawLine(data, myChart);
-        });
+        const data = [
+          [820, 932, -301, 934, 1290, 1330],
+          [120, 132, 101, 134, 290, 230]
+        ];
+        drawLine(data, myChart);
       }
       this.timerData.push(setInterval(setIntervalDrawWave, 5000))
       setIntervalDrawWave();
     },
     getHotDatList() {
       const setIntervalHotDataList = () => {
-        getHotDatList().then((data) => {
-          this.hotDataList = data;
-        })
+        this.hotDataList = [
+          {
+            text: "总户数",
+            count: "142"
+          }, {
+            text: "开栓数",
+            count: "136"
+          }, {
+            text: "总面积",
+            count: "11247"
+          }, {
+            text: "开栓面积",
+            count: "10025"
+          }, {
+            text: "功率",
+            count: "0"
+          }, {
+            text: "流量",
+            count: "0"
+          }, {
+            text: "平均回温",
+            count: "24.2"
+          }, {
+            text: "平均室温",
+            count: "20"
+          },
+        ];
       };
       this.timerData.push(setInterval(setIntervalHotDataList, 5000));
       setIntervalHotDataList();
@@ -411,9 +2140,20 @@ export default {
       var myChart = echarts.init(document.getElementById('pointImg'));
 
       const setIntervalDrawPoint = () => {
-        getDrawPoint().then((data) => {
-          drawPoint(data, myChart, echarts)
-        });
+        const data = [
+          [3, 20],
+          [9, 10],
+          [5, 11],
+          [13, 15],
+          [15, 19],
+          [17, 19],
+          [19, 15],
+          [21, 10],
+          [23, 8],
+          [25, 22],
+          [26, 25]
+        ];
+        drawPoint(data, myChart, echarts)
       }
 
       this.timerData.push(setInterval(setIntervalDrawPoint, 5000));
@@ -422,18 +2162,29 @@ export default {
     getNotifyInfo() {
       const imgData = [importImg, hot, time];
       const setIntervalNotifyInfo = () => {
-        getNotifyInfo().then((notifyData) => {
-          const dataList = [];
-          notifyData.forEach((item, idx) => {
-            dataList.push({
-              img: imgData[idx],
-              text: item.text,
-              time: item.time
-            });
+        const notifyData = [{
+          text: "重要公告",
+          time: "2025-03-06 19:09"
+        },
+        {
+          text: "供热通知",
+          time: "2025-03-06 19:09"
+        },
+        {
+          text: "供热时间调整",
+          time: "2025-03-06 22:09"
+        }
+        ];
+        const dataList = [];
+        notifyData.forEach((item, idx) => {
+          dataList.push({
+            img: imgData[idx],
+            text: item.text,
+            time: item.time
           });
-
-          this.notifyList = dataList
         });
+
+        this.notifyList = dataList
       };
 
       this.timerData.push(setInterval(setIntervalNotifyInfo, 5000))
@@ -441,9 +2192,21 @@ export default {
     },
     getUnitInfoList() {
       const setIntervalUnitInfoList = () => {
-        getUnitInfoList().then((data) => {
-          this.unitInfoList = data;
-        })
+        const data = [
+          {
+            position: "低区",
+            roomCount: 12,
+            openCount: 10,
+            noodle: 790,
+          },
+          {
+            position: "高区",
+            roomCount: 11,
+            openCount: 27,
+            noodle: 2253,
+          }
+        ];
+        this.unitInfoList = data;
       };
       this.timerData.push(setInterval(setIntervalUnitInfoList, 5000));
       setIntervalUnitInfoList();
@@ -853,19 +2616,23 @@ export default {
   align-items: flex-end;
   position: relative;
 }
-.status-img{
+
+.status-img {
   position: absolute;
   height: 42px;
   width: 198px;
   left: 0;
   bottom: 0;
 }
-.building-img:hover .building-hover-show{
+
+.building-img:hover .building-hover-show {
   display: block;
 }
-.building-hover-show{
+
+.building-hover-show {
   display: none;
 }
+
 .building-name {
   height: 70px;
   line-height: 70px;
