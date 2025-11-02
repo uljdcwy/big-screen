@@ -255,12 +255,18 @@ export default {
   mounted() {
 
     document.body.classList.add('otherPage');
-    this.drawPoint();
-    this.getHotDatList();
-    this.drawWave();
-    this.getNotifyInfo();
-    this.getUnitInfoList();
-    this.getBuildingInfo();
+
+    setTimeout(() => {
+
+      
+      this.drawPoint();
+      this.getHotDatList();
+      this.drawWave();
+      this.getNotifyInfo();
+      this.getUnitInfoList();
+      this.getBuildingInfo();
+
+    }, 1000);
 
     getWeatherNow().then((data) => {
 

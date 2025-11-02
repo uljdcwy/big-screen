@@ -162,12 +162,18 @@ export default {
 
 
         });
-        this.hotRanking();
-        this.electricityRanking();
-        this.waterRanking();
-        this.drawPie();
-        this.drawMPie();
-        this.getStatisticsList();
+
+        setTimeout(() => {
+
+            this.hotRanking();
+            this.electricityRanking();
+            this.waterRanking();
+            this.drawPie();
+            this.drawMPie();
+            this.getStatisticsList();
+        }, 1000);
+
+
         this.timer = setInterval(() => {
             this.timeShow = getCurrentTime();
         }, 1000);
@@ -225,7 +231,10 @@ export default {
 
         },
         drawMPie() {
-            const chart = echarts.init(document.getElementById("drawMPie"));
+            const echatDom = document.getElementById("drawMPie");
+            console.log(echatDom, "echatDom")
+            echatDom.innerHTML = "";
+            const chart = echarts.init(echatDom);
 
 
 
@@ -366,7 +375,7 @@ export default {
             var myChart = echarts.init(document.getElementById('hotRanking'));
             this.bar1Instance.push(myChart);
 
-            console.log(myChart,"myChart")
+            console.log(myChart, "myChart")
             const setIntervalHotRanking = () => {
 
                 const res = {
@@ -1005,7 +1014,7 @@ export default {
                 // 初始化 Raycaster 和鼠标向量
                 const raycaster = new THREE.Raycaster();  // 定义 raycaster
                 const mouse = new THREE.Vector2();        // 定义 mouse 向量
-               //  const recordHoverData = [];
+                //  const recordHoverData = [];
 
 
                 // 创建 PMREM 生成器
